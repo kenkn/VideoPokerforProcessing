@@ -8,6 +8,7 @@ class TrumpDesign{
   Boolean isFront;
   float cardSize;
   float locateX = 0.0, locateY = 0.0;
+  //Boolean isPassing = false;
   
   TrumpDesign(int requireNumber, int requirePattern, Boolean isCardFront, float requireCardSize){
     
@@ -25,6 +26,20 @@ class TrumpDesign{
     locateX = tempX;
     locateY = tempY;    
     
+  }
+  
+  void brightCard(boolean isPassing){
+    
+    if(isPassing == true){
+      fill(255, 255, 0, 150);
+      rect(locateX, locateY, cardSize * 58, cardSize * 88, cardSize * 4);
+    }
+    
+  }
+  
+  void cardTurnOver(){
+    fill(150, 10, 0);
+    rect(locateX, locateY, cardSize * 58, cardSize * 88, cardSize * 4);
   }
   
   void display(){
@@ -70,6 +85,9 @@ class TrumpDesign{
           fill(255, 0, 0);
           textSize(cardSize * 50.0);
           text("♦", locateX + cardX - patternMarginX, locateY + cardY - patternMarginY);
+          break;
+          
+        case -1:
           break;
         
         default:
