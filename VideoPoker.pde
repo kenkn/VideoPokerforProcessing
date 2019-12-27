@@ -13,7 +13,7 @@
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-final float currentVersion = 1.1;
+final float currentVersion = 1.2;
 
 TrumpDesign trumpDesign[] = new TrumpDesign[5];
 Trump trump[] = new Trump[54];
@@ -31,6 +31,7 @@ int playerWin = 0;
 int gameStatus = 0;
 int firstDrawTime = 50;
 int secondDrawTime = 0;
+int fiveStatusTime = 0;
 int drawOrder[] = {10, 20, 30, 40, 50};
 int notHeldCard[] = new int[5];
 int secondTurnOverCount = 0;
@@ -45,6 +46,7 @@ boolean isDrawClicked = false;
 boolean isBetResetClicked = false;
 boolean isShuffled = false;
 boolean isKeyPressed = false;
+boolean isArrowAccess = false;
 boolean isCardClicked[] = new boolean[5];
 boolean isCardPassed[] = new boolean[5];
 boolean isCardChenge[] = new boolean[5];
@@ -103,7 +105,9 @@ void draw(){
     fill(255);
     text("WIN: " + playerWin, 50, 730);
     text("BET: " + playerBet, 50, 780);
-    text("CREDIT: " + playerCredit, 1000, 780);
+    textAlign(LEFT);
+    text("CREDIT: " + playerCredit, 780, 780);
+    textAlign(LEFT);
     
     textSize(20);
     betButton.display();
@@ -133,7 +137,7 @@ void draw(){
       
     }
     
-    if(isDrawClicked == true || (keyPressed == true && key == ENTER)){
+    if(isDrawClicked == true){
     
       isDrawClicked = false;
       if(playerBet > 0)  gameStatus = 2;
@@ -153,11 +157,12 @@ void draw(){
     
     fill(0, 130, 0);
     stroke(0, 130, 0);
-    rect(980, 730, 300, 100);
+    rect(780, 730, 1000, 100);
     textSize(40);
     fill(255);
     textAlign(LEFT);
-    text("CREDIT: " + playerCredit, 1000, 780);
+    text("CREDIT: " + playerCredit, 780, 780);
+    textAlign(LEFT);
     
     if(isShuffled == false){
       cardShuffle();
@@ -201,12 +206,11 @@ void draw(){
       firstDrawTime = 50;
       isShuffled = false;
     }
-    
-    
+        
   }
   
   else if(gameStatus == 3){
-    
+       
     if(keyPressed == true && key == '1'){
        if(isKeyPressed == false){
          isCardClicked[0] = !isCardClicked[0];
@@ -233,7 +237,10 @@ void draw(){
          isKeyPressed = true;
        }
     } else if(keyPressed == true && key == ENTER){
-        isDrawClicked = true;
+      if(isKeyPressed == false){
+         isDrawClicked = true;
+         isKeyPressed = true;
+       }
     } else isKeyPressed = false;
     
     showCard();
@@ -254,12 +261,15 @@ void draw(){
     int notHeld = 0;
     fill(0, 130, 0);
     stroke(0, 130, 0);
-    rect(300,300,700,60);
+    rect(300, 300, 700, 60);
     
     for(int i = 0; i < trumpDesign.length; ++i){
       
+      if(isCardClicked[0] == true && isCardClicked[1] == true && isCardClicked[2] == true && isCardClicked[3] == true && isCardClicked[4] == true){
+        isDrawComplete = true;
+      }
+      
       if(isCardClicked[i] == false){
-          
         if(hideFlg == true)  trumpDesign[i].cardTurnOver();
         notHeldCard[notHeld] = i;
         notHeld++;
@@ -288,10 +298,6 @@ void draw(){
     }
     
     hideFlg = false;
-    
-    if(isCardClicked[0] == true && isCardClicked[1] == true && isCardClicked[2] == true && isCardClicked[3] == true && isCardClicked[4] == true){
-      isDrawComplete = true;
-    }
     
     if(secondDrawTime >= drawOrder[secondTurnOverCount] && secondTurnOverCount <= notHeld - 1){
       trumpDesign[notHeldCard[secondTurnOverCount]].display();
@@ -323,6 +329,7 @@ void draw(){
     textSize(72);
     textAlign(CENTER);
     text(playerHand, 640, 280);
+    fiveStatusTime++;
     
     if(playerHand == "JACKS OR BETTER"){
       
@@ -341,10 +348,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "TWO PAIR"){
       
@@ -363,10 +372,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "3 OF A KIND"){
       
@@ -385,10 +396,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "STRAIGHT"){
       
@@ -407,10 +420,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "FLUSH"){
       
@@ -429,10 +444,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+     textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "FULL HOUSE"){
       
@@ -451,10 +468,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "4 OF A KIND"){
       
@@ -473,10 +492,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "STRAIGHT FLUSH"){
       
@@ -495,10 +516,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else if(playerHand == "5 OF A KIND"){
       
@@ -517,10 +540,10 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      text("CREDIT: " + playerCredit, 780, 780);
       
     } else if(playerHand == "ROYAL STRAIGHT FLUSH"){
       
@@ -539,10 +562,12 @@ void draw(){
       text("WIN: " + playerWin, 50, 730);
       fill(0, 130, 0);
       stroke(0, 130, 0);
-      rect(980, 730, 300, 100);
+      rect(780, 730, 1000, 100);
       textSize(40);
       fill(255);
-      text("CREDIT: " + playerCredit, 1000, 780);
+      textAlign(LEFT);
+      text("CREDIT: " + playerCredit, 780, 780);
+      textAlign(LEFT);
       
     } else {
       fill(255, 255, 0);
@@ -594,7 +619,9 @@ void draw(){
         gameStatus = 6;
     }
     
-    if((isDrawClicked == true || (keyPressed == true && key == ENTER)) && playerBet > 0){
+    if(fiveStatusTime > 40)  isKeyPressed = false;
+    
+    if((isDrawClicked == true || (keyPressed == true && key == ENTER)) && playerBet > 0 && isKeyPressed == false){
       fill(0, 130, 0);
       stroke(0, 130, 0);
       rect(200, 205, 800, 100);
@@ -631,7 +658,7 @@ void draw(){
     }
     
   }
-  
+
 }
 
 void mousePressed(){
