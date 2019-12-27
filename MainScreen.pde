@@ -1,23 +1,18 @@
 class MainScreen{
 
-  //int credit;
-  //int bet;
-  //int winCredit;
+  float version;
   
-  //MainScreen(int playerCredit, int playerBet, int playerWin){
-  //  credit = playerCredit;
-  //  bet = playerBet;
-  //  winCredit = playerWin;
-  //}
+  MainScreen(float currentVersion){
+    
+    version = currentVersion;
+    
+  }
   
   void display(){
     
     background(0, 130, 0);
+    fill(255);    
     textSize(40);
-    fill(255);
-    //text("WIN: " + winCredit, 50, 730);
-    //text("BET: " + bet, 50, 780);
-    //text("CREDIT: " + credit, 1000, 780);
     
     // cards frame
     stroke(255);
@@ -58,6 +53,9 @@ class MainScreen{
     text("x4", 1000, 140);
     text("TWO PAIR", 750, 170);
     text("x2", 1000, 170);
+    
+    textSize(20);
+    text("ver. " + version, 1080, 170);
     
   }
   
